@@ -37,11 +37,11 @@ namespace app
             #region Menu Items
             string[] menuItems =
             {
-                "Create video",
-                "List videos",
-                "Update video",
-                "Delete video",
-                "Search video",
+                "Create a video",
+                "List all videos",
+                "Update a video",
+                "Delete a video",
+                "Search in all videos",
                 "Exit"
             };
             #endregion
@@ -65,8 +65,7 @@ namespace app
                         DeleteVideo();
                         break;
                     case 5:
-                        WriteLine("\nSearch video");
-                        WriteLine("What would you like to find?");
+                        SearchVideos();
                         break;
                 }
                 WriteLine("Press Enter to go back to the menu");
@@ -76,8 +75,43 @@ namespace app
 
             }
             #endregion
-            WriteLine("\nBye!");
+            WriteLine("Press enter to close the program");
             ReadLine();
+
+        }
+
+        private static void SearchVideos()
+        {
+            WriteLine("Search for videos");
+            var searchedVideos = new List<Video>();
+
+            var searchTerm = ReadLine().ToLower();
+            bool intExist = false;
+            int searchId = 0;
+            if (int.TryParse(searchTerm, out searchId))
+            {
+                intExist = true;
+
+            }
+            foreach (var video in Videos)
+            {
+                if (video.Name.ToLower().Contains(searchTerm)
+                    || video.Genre.ToLower().Contains(searchTerm))
+                {
+                    searchedVideos.Add(video);
+                }
+                else if (intExist && video.Id == searchId)
+                {
+                    searchedVideos.Add(video);
+                }
+            }
+
+            WriteLine("Search Result");
+            foreach (var video in searchedVideos)
+            {
+                WriteLine($"ID: {video.Id}|Genre: {video.Genre}|Name: {video.Name}");
+                
+            }
 
         }
 
